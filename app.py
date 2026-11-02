@@ -18,64 +18,235 @@ from common import (
 st.set_page_config(
     page_title="GeoSpatial AI | Urban Feature Classification Platform",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
 st.markdown("""
 <style>
-    /* Global Theme & Deep Navy Background */
+    /* ---------------- GLOBAL THEME ---------------- */
+
     .main {
         background-color: #070b12;
         color: #e2e8f0;
         font-family: 'Inter', sans-serif;
     }
-    
-    /* Sidebar Styling */
+
+    /* Responsive page spacing */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: clamp(1rem, 4vw, 3rem);
+        padding-right: clamp(1rem, 4vw, 3rem);
+        max-width: 100%;
+    }
+
+    /* ---------------- SIDEBAR ---------------- */
+
     section[data-testid="stSidebar"] {
         background-color: #0b111e;
         border-right: 1px solid #1e293b;
     }
-    
-    /* Animations */
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(16px); }
-        to { opacity: 1; transform: translateY(0); }
+
+    section[data-testid="stSidebar"] > div {
+        width: 100%;
     }
 
-    /* Hero Section Styling */
+    /* ---------------- ANIMATIONS ---------------- */
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ---------------- HERO SECTION ---------------- */
+
     .hero-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 40px;
-        background: linear-gradient(135deg, #0b111e 0%, #070b12 100%);
+
+        background: linear-gradient(
+            135deg,
+            #0b111e 0%,
+            #070b12 100%
+        );
+
         border: 1px solid #1e293b;
-        padding: 50px;
+        padding: clamp(20px, 4vw, 50px);
         border-radius: 18px;
         margin-top: 10px;
+
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+        width: 100%;
+        box-sizing: border-box;
     }
-    
+
     .hero-content {
         flex: 1.1;
+        min-width: 0;
     }
-    
+
     .hero-visual {
         flex: 0.9;
+        min-width: 0;
+
         background: #0f172a;
         border: 1px solid #334155;
         border-radius: 12px;
-        padding: 15px;
+        padding: clamp(12px, 2vw, 15px);
+
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
-    /* Metric Container Polish */
+    .hero-content h1 {
+        font-size: clamp(24px, 3.2vw, 38px) !important;
+        overflow-wrap: break-word;
+    }
+
+    /* ---------------- METRIC CONTAINERS ---------------- */
+
     div[data-testid="metric-container"] {
         background-color: #0b111e;
         border: 1px solid #1e293b;
         padding: 15px;
         border-radius: 10px;
+        min-width: 0;
+    }
+
+    /* ---------------- GENERAL RESPONSIVENESS ---------------- */
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Allow columns to wrap when there is insufficient space */
+    div[data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    div[data-testid="column"] {
+        min-width: 0;
+    }
+
+    /* Keep tables within the available screen width */
+    div[data-testid="stDataFrame"],
+    div[data-testid="stTable"] {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    /* ---------------- TABLET ---------------- */
+
+    @media screen and (max-width: 900px) {
+
+        .hero-wrapper {
+            gap: 20px;
+        }
+
+        div[data-testid="stHorizontalBlock"] {
+            flex-wrap: wrap !important;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            flex: 1 1 calc(50% - 1rem) !important;
+            width: calc(50% - 1rem) !important;
+            min-width: 0 !important;
+        }
+    }
+
+    /* ---------------- MOBILE ---------------- */
+
+    @media screen and (max-width: 640px) {
+
+        .main .block-container {
+            padding: 1rem 0.8rem 2rem 0.8rem;
+        }
+
+        /* Stack hero content vertically */
+        .hero-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 22px;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .hero-content,
+        .hero-visual {
+            width: 100%;
+            flex: 1 1 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 26px !important;
+            line-height: 1.25 !important;
+        }
+
+        .hero-content p {
+            font-size: 14px !important;
+        }
+
+        /* Stack all Streamlit columns vertically */
+        div[data-testid="stHorizontalBlock"] {
+            flex-direction: column !important;
+            gap: 1rem !important;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            min-width: 0 !important;
+        }
+
+        /* Smaller metric cards */
+        div[data-testid="metric-container"] {
+            padding: 12px;
+        }
+
+        /* Make headings fit smaller screens */
+        h1 {
+            font-size: 26px !important;
+        }
+
+        h2 {
+            font-size: 22px !important;
+        }
+
+        h3 {
+            font-size: 19px !important;
+        }
+
+        h4 {
+            font-size: 16px !important;
+        }
+
+        /* Reduce spacing around horizontal separators */
+        hr {
+            margin-top: 15px !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Workflow cards should grow with their content */
+        .workflow-card {
+            height: auto !important;
+            min-height: 180px;
+        }
+
+        /* Prevent long text from overflowing */
+        p, span, label {
+            overflow-wrap: break-word;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -289,7 +460,7 @@ with tab1:
             with cols[idx]:
                 st.markdown(
                     f"""
-                    <div style="background-color: #0f172a; border: 1px solid #1e293b; padding: 22px; border-radius: 12px; height: 210px; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <div class="workflow-card" style="background-color: #0f172a; border: 1px solid #1e293b; padding: 22px; border-radius: 12px; min-height: 210px; height: auto; display: flex; flex-direction: column; justify-content: flex-start; box-sizing: border-box;">
                         <div style="width: 36px; height: 36px; background: rgba(16, 185, 129, 0.15); color: #34d399; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; margin-bottom: 14px; border: 1px solid rgba(16, 185, 129, 0.3);">{num}</div>
                         <h4 style="color: #f8fafc; font-size: 15px; margin-bottom: 8px; font-weight: 600;">{title}</h4>
                         <p style="color: #94a3b8; font-size: 13px; line-height: 1.5; margin: 0;">{desc}</p>
