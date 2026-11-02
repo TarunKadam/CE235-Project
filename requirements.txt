@@ -1,0 +1,12 @@
+numpy
+pandas
+scipy
+scikit-learn
+scikit-image
+geopandas
+rasterio
+joblib
+matplotlib
+pillow
+torch
+streamlit
